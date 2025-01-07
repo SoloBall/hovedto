@@ -1,0 +1,15 @@
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\bin\Debug\net8.0\FiveFives.exe
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\bin\Debug\net8.0\FiveFives.deps.json
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\bin\Debug\net8.0\FiveFives.runtimeconfig.json
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\bin\Debug\net8.0\FiveFives.dll
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\bin\Debug\net8.0\FiveFives.pdb
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.AssemblyInfoInputs.cache
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.AssemblyInfo.cs
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.csproj.CoreCompileInputs.cache
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.sourcelink.json
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.dll
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\refint\FiveFives.dll
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.pdb
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.genruntimeconfig.cache
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\ref\FiveFives.dll
