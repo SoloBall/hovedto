@@ -21,7 +21,7 @@ while (true)
         {
             if (!words.ContainsKey(string.Concat(currentLine.OrderBy(x => x))))
             {
-                words.Add(string.Concat(currentLine.OrderBy(x => x)), currentLine);
+                words.Add(string.Concat(currentLine.OrderBy(x => x)), currentLine); // EW.
             }
         }
     }
@@ -31,7 +31,7 @@ while (true)
     }
 }
 
-void MatchWords(string currentWord, int wordsMatched, int index, List<string> usedWords)
+void MatchWords(string currentWord, int wordsMatched, int index, List<string> usedWords) // Kunne være bedere!
 {
     if (wordsMatched == 5)
     {
@@ -105,7 +105,7 @@ static bool HasAnagram(string line, List<string> words)         // awful ---> ch
 
     foreach (string word in words)
     {
-        List<char> wordChars = new();
+        List<char> wordChars = new();                   // Fuck jeg er bange for bananer.
         foreach (char c in word)
         {
             wordChars.Add(c);
@@ -115,7 +115,7 @@ static bool HasAnagram(string line, List<string> words)         // awful ---> ch
         {
             sortedWord += c;
         }
-        if (sortedWord == line)
+        if (sortedWord == line)                         // Certified brownie lover <3 <3 <3 <3
         {
             return true;
         }
