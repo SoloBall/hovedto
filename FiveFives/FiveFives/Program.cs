@@ -1,7 +1,9 @@
 ﻿// jeg har lavet noget uoptimeret kode som nok ikke kan blive færdigt, men over en lang periode skal det nok virke
 
+// to make recursive -> just use all required variables as arguments, the recursive part is when a new, working word has been found, whereas all of the previous
+// variables get used as arguments again to find the next word
+
 Console.WriteLine("me starté");
-List<string> words = new();
 List<List<string>> sortedWords = new();
 for (int i = 0; i < 6; i++)
 {
@@ -9,14 +11,18 @@ for (int i = 0; i < 6; i++)
 }
 StreamReader reader = new("C:\\Users\\HFGF\\source\\repos\\SoloBall\\hovedto\\FiveFives\\FiveFives\\Resources\\words.txt"); // ugly... change
 int count = 0;
+Dictionary<string, string> words = new();
 while (true)
 {
-    string currentLine = reader.ReadLine() ?? "bingusBoingus";      //wtf ---> change
+    string currentLine = reader.ReadLine() ?? "bingusBoingus";      // wtf ---> change
     if (currentLine != "bingusBoingus")
     {
-        if (currentLine.Length == 5 && !HasMoreThanOneVocal(currentLine) && !HasMoreOfAKind(currentLine))
+        if (currentLine.Length == 5 && !HasMoreOfAKind(currentLine))
         {
-            words.Add(currentLine);
+            if (!words.ContainsKey(string.Concat(currentLine.OrderBy(x => x))))
+            {
+                words.Add(string.Concat(currentLine.OrderBy(x => x)), currentLine);
+            }
         }
     }
     else
@@ -24,66 +30,22 @@ while (true)
         break;
     }
 }
-Console.WriteLine("filtering anagrams :( \n and naturally also separating the wrongs from the rights");
-foreach (string line in words)          // crazy --->   change... maybe add all characters
+
+void MatchWords(string currentWord, int wordsMatched, int index, List<string> usedWords)
 {
-    count++;
-    if (count % 100 == 0)
+    if (wordsMatched == 5)
     {
-        Console.Write(".");
+        Console.WriteLine(string.Join(" ", usedWords));
+        return;
     }
-    if (line.Contains("a"))
+    if (string.Concat(usedWords, currentWord).Distinct().Count() == (wordsMatched + 1) * 5)
     {
-        if (HasAnagram(line, sortedWords[0]))
-        {
-            continue;
-        }
-        sortedWords[0].Add(line);
-    }
-    if (line.Contains("e"))
-    {
-        if (HasAnagram(line, sortedWords[1]))
-        {
-            continue;
-        }
-        sortedWords[1].Add(line);
-    }
-    if (line.Contains("i"))
-    {
-        if (HasAnagram(line, sortedWords[2]))
-        {
-            continue;
-        }
-        sortedWords[2].Add(line);
-    }
-    if (line.Contains("o"))
-    {
-        if (HasAnagram(line, sortedWords[3]))
-        {
-            continue;
-        }
-        sortedWords[3].Add(line);
-    }
-    if (line.Contains("u"))
-    {
-        if (HasAnagram(line, sortedWords[4]))
-        {
-            continue;
-        }
-        sortedWords[4].Add(line);
-    }
-    if (line.Contains("y"))
-    {
-        if (HasAnagram(line, sortedWords[5]))
-        {
-            continue;
-        }
-        sortedWords[5].Add(line);
+        Console.WriteLine("Penus kh. Philip!");
     }
 }
-List<List<string>> result = new();
+/*
 Console.WriteLine("will never go beyond this point :))");           // fix
-for (int first = 0; first < words.Count; first++)
+for (int first = 0; first < words.Count; first++)       // make recursive
 {
     for (int second = 0; second < words.Count; second++)
     {
@@ -111,20 +73,7 @@ for (int first = 0; first < words.Count; first++)
         }
     }
 }
-
-static bool HasMoreThanOneVocal(string line)
-{
-    int vocals = 0;
-    foreach (char c in line)
-    {
-        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y')
-        {
-            vocals++;
-        }
-    }
-    return vocals > 3;
-}
-// mix top and bottom methods into one
+*/
 static bool HasMoreOfAKind(string line)
 {
     string usedCharacters = "";
@@ -174,3 +123,5 @@ static bool HasAnagram(string line, List<string> words)         // awful ---> ch
     return false;    
 }
 Console.WriteLine("done!!!!!😃😃😃😃😃");
+Console.WriteLine("Penus kh. Philip!");
+Console.WriteLine("All that works, is made by Philip. Everything that don't is akmandas.");
