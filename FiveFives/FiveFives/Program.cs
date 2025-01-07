@@ -3,15 +3,13 @@
 // to make recursive -> just use all required variables as arguments, the recursive part is when a new, working word has been found, whereas all of the previous
 // variables get used as arguments again to find the next word
 
+// it might be faster to use a list of sorted lines and a list of bit values
+using System.Diagnostics;
+
 Console.WriteLine("me starté");
-List<List<string>> sortedWords = new();
-for (int i = 0; i < 6; i++)
-{
-    sortedWords.Add(new());
-}
-StreamReader reader = new("C:\\Users\\HFGF\\source\\repos\\SoloBall\\hovedto\\FiveFives\\FiveFives\\Resources\\words.txt"); // ugly... change
-int count = 0;
-Dictionary<string, string> words = new();
+Stopwatch stopwatch = Stopwatch.StartNew();
+StreamReader reader = new("C:\\Users\\HFGF\\source\\repos\\SoloBall\\hovedto\\FiveFives\\FiveFives\\Resources\\words_beta.txt"); // ugly... change
+Dictionary<string, int> words = new();
 while (true)
 {
     string currentLine = reader.ReadLine() ?? "bingusBoingus";      // wtf ---> change
@@ -21,7 +19,7 @@ while (true)
         {
             if (!words.ContainsKey(string.Concat(currentLine.OrderBy(x => x))))
             {
-                words.Add(string.Concat(currentLine.OrderBy(x => x)), currentLine); // EW.
+                words.Add(string.Concat(currentLine.OrderBy(x => x)), BitValue(currentLine)); // EW.
             }
         }
     }
@@ -31,49 +29,39 @@ while (true)
     }
 }
 
-void MatchWords(string currentWord, int wordsMatched, int index, List<string> usedWords) // Kunne være bedere!
+int[] wordsArray = words.Values.ToArray();
+int wordsCount = wordsArray.Length;
+int resultCount = 0;
+int solutions = 0;
+MatchWords(0, 0, new());
+stopwatch.Stop();
+Console.WriteLine(stopwatch.ToString());
+
+void MatchWords(int word, int index, List<int> usedWords) // Kunne være bedere! mate den virker jo ikke engang
 {
-    if (wordsMatched == 5)
+    if (usedWords.Count() == 5)
     {
-        Console.WriteLine(string.Join(" ", usedWords));
+        solutions++;
+        foreach (int num in usedWords)
+        {
+            Console.Write(StringValue(num) + " ");
+        }
+        Console.WriteLine();
+        resultCount++;
         return;
     }
-    if (string.Concat(usedWords, currentWord).Distinct().Count() == (wordsMatched + 1) * 5)
+
+    for (int i = index; i < wordsCount; i++)
     {
-        Console.WriteLine("Penus kh. Philip!");
-    }
-}
-/*
-Console.WriteLine("will never go beyond this point :))");           // fix
-for (int first = 0; first < words.Count; first++)       // make recursive
-{
-    for (int second = 0; second < words.Count; second++)
-    {
-        if ((words[first] + words[second]).Distinct().Count() == 10)
+        if ((wordsArray[i] & word) == 0)
         {
-            for (int third = 0; third < words.Count; third++)
-            {
-                if ((words[first] + words[second] + words[third]).Distinct().Count() == 15)
-                {
-                    for (int fourth = 0; fourth < words.Count; fourth++)
-                    {
-                        if ((words[first] + words[second] + words[third] + words[fourth]).Distinct().Count() == 20)
-                        {
-                            for (int fifth = 0; fifth < words.Count; fifth++)
-                            {
-                                if ((words[first] + words[second] + words[third] + words[fourth] + words[fifth]).Distinct().Count() == 25)
-                                {
-                                    result.Add(new List<string> { words[first], words[second], words[third], words[fourth], words[fifth] });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            List<int> tmpList = new(usedWords);
+            tmpList.Add(wordsArray[i]);
+            MatchWords(word | wordsArray[i], i + 1, tmpList);
         }
     }
 }
-*/
+
 static bool HasMoreOfAKind(string line)
 {
     string usedCharacters = "";
@@ -84,44 +72,44 @@ static bool HasMoreOfAKind(string line)
             return true;
         }
         usedCharacters += c;
-
     }
     return false;
 }
-static bool HasAnagram(string line, List<string> words)         // awful ---> change
+
+int BitValue(string line)
 {
-    string sortedWord = "";
-    List<char> lineChars = new();
+    int result = 0;
     foreach (char c in line)
     {
-        lineChars.Add(c);
+        result |= 1 << (int)(c - 'a');
     }
-    lineChars.Sort();
-    line = "";
-    foreach (char c in lineChars)
-    {
-        line += c;
-    }
-
-    foreach (string word in words)
-    {
-        List<char> wordChars = new();                   // Fuck jeg er bange for bananer.
-        foreach (char c in word)
-        {
-            wordChars.Add(c);
-        }
-        wordChars.Sort();
-        foreach (char c in wordChars)
-        {
-            sortedWord += c;
-        }
-        if (sortedWord == line)                         // Certified brownie lover <3 <3 <3 <3
-        {
-            return true;
-        }
-    }
-    return false;    
+    return result;
 }
+string StringValue(int bitArray)
+{
+    // List to store characters in the original order
+    List<char> characters = new List<char>();
+
+    // Iterate through the 32 bits (as we're using an int, it has 32 bits)
+    for (int i = 0; i < 32; i++)
+    {
+        // Check if the i-th bit is set
+        if ((bitArray & (1 << i)) != 0)
+        {
+            // Add corresponding character to the result string
+            // We assume the letters are 'a' to 'z', so we convert the bit index to a character
+            // Check if i is within 0-25 range (for a-z)
+            if (i < 26)
+            {
+                characters.Add((char)('a' + i));
+            }
+        }
+    }
+    // Convert the list of characters to a string
+    return new string(characters.ToArray());
+}
+
+Console.WriteLine(solutions);
 Console.WriteLine("done!!!!!😃😃😃😃😃");
 Console.WriteLine("Penus kh. Philip!");
 Console.WriteLine("All that works, is made by Philip. Everything that don't is akmandas.");
