@@ -13,3 +13,5 @@ C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0
 C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.pdb
 C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\FiveFives.genruntimeconfig.cache
 C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\obj\Debug\net8.0\ref\FiveFives.dll
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\bin\Debug\net8.0\Resources\words.txt
+C:\Users\HFGF\source\repos\SoloBall\hovedto\FiveFives\FiveFives\bin\Debug\net8.0\Resources\words_beta.txt

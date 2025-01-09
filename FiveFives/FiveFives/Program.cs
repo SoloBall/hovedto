@@ -1,21 +1,17 @@
-﻿// jeg har lavet noget uoptimeret kode som nok ikke kan blive færdigt, men over en lang periode skal det nok virke
-
-// to make recursive -> just use all required variables as arguments, the recursive part is when a new, working word has been found, whereas all of the previous
-// variables get used as arguments again to find the next word
-
-// it might be faster to use a list of sorted lines and a list of bit values
+﻿// koden virker, recursive samt bit masking. Tager dog lidt tid
 using System.Diagnostics;
+using System.Threading.Channels;
 
 Console.WriteLine("me starté");
 Stopwatch stopwatch = Stopwatch.StartNew();
-StreamReader reader = new("C:\\Users\\HFGF\\source\\repos\\SoloBall\\hovedto\\FiveFives\\FiveFives\\Resources\\words_beta.txt"); // ugly... change
+StreamReader reader = new("Resources\\words.txt"); // ugly... change
 Dictionary<string, int> words = new();
 while (true)
 {
-    string currentLine = reader.ReadLine() ?? "bingusBoingus";      // wtf ---> change
-    if (currentLine != "bingusBoingus")
+    string currentLine = reader.ReadLine() ?? "";      // wtf ---> change
+    if (currentLine != "")
     {
-        if (currentLine.Length == 5 && !HasMoreOfAKind(currentLine))
+        if (currentLine.Length == 5 && currentLine.Distinct().Count() == 5)
         {
             if (!words.ContainsKey(string.Concat(currentLine.OrderBy(x => x))))
             {
@@ -29,51 +25,48 @@ while (true)
     }
 }
 
-int[] wordsArray = words.Values.ToArray();
-int wordsCount = wordsArray.Length;
-int resultCount = 0;
+List<int>[] wordsList = new List<int>[26];
+for (int i = 0; i < 26; i++)
+{
+    wordsList[i] = new();
+}
+foreach (string word in words.Keys)
+{
+    wordsList[LowestCharacter(word)].Add(words[word]);
+}
 int solutions = 0;
-MatchWords(0, 0, new());
+MatchWords(new());
 stopwatch.Stop();
 Console.WriteLine(stopwatch.ToString());
 
-void MatchWords(int word, int index, List<int> usedWords) // Kunne være bedere! mate den virker jo ikke engang
+void MatchWords(List<int> usedWords, int word = 0, int wordIndex = 0, int alphabetIndex = 0) // Kunne være bedere! mate den virker jo ikke engang
 {
-    if (usedWords.Count() == 5)
+    for (int k = alphabetIndex; k < 26; k++) 
     {
-        solutions++;
-        foreach (int num in usedWords)
+        if (usedWords.Count == 5)
         {
-            Console.Write(StringValue(num) + " ");
+            Console.WriteLine("did");
+            solutions++;
+            return;
         }
-        Console.WriteLine();
-        resultCount++;
-        return;
-    }
-
-    for (int i = index; i < wordsCount; i++)
-    {
-        if ((wordsArray[i] & word) == 0)
+        int wordCount = wordsList[k].Count();
+        for (int i = wordIndex; i < wordCount; i++)
         {
-            List<int> tmpList = new(usedWords);
-            tmpList.Add(wordsArray[i]);
-            MatchWords(word | wordsArray[i], i + 1, tmpList);
+            int tmpWord = wordsList[k][i];
+            if ((tmpWord & word) == 0)
+            {
+                List<int> tmpList = new(usedWords);
+                tmpList.Add(tmpWord);
+                MatchWords(tmpList, word | tmpWord, 0, k + 1);
+            }
+            /*if (i == wordCount - 1)
+            {
+                alphabetIndex++;
+                wordCount = wordsList[alphabetIndex].Count();
+                i = 0;
+            }*/
         }
     }
-}
-
-static bool HasMoreOfAKind(string line)
-{
-    string usedCharacters = "";
-    foreach (char c in line)
-    {
-        if (usedCharacters.Contains(c))
-        {
-            return true;
-        }
-        usedCharacters += c;
-    }
-    return false;
 }
 
 int BitValue(string line)
@@ -85,28 +78,17 @@ int BitValue(string line)
     }
     return result;
 }
-string StringValue(int bitArray)
+int LowestCharacter(string line)
 {
-    // List to store characters in the original order
-    List<char> characters = new List<char>();
-
-    // Iterate through the 32 bits (as we're using an int, it has 32 bits)
-    for (int i = 0; i < 32; i++)
+    int result = 26;
+    foreach (char c in line)
     {
-        // Check if the i-th bit is set
-        if ((bitArray & (1 << i)) != 0)
+        if ((int)c - 'a' < result)
         {
-            // Add corresponding character to the result string
-            // We assume the letters are 'a' to 'z', so we convert the bit index to a character
-            // Check if i is within 0-25 range (for a-z)
-            if (i < 26)
-            {
-                characters.Add((char)('a' + i));
-            }
+            result = (int)c - 'a';
         }
     }
-    // Convert the list of characters to a string
-    return new string(characters.ToArray());
+    return result;
 }
 
 Console.WriteLine(solutions);
